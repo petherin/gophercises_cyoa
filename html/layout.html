@@ -1,0 +1,11 @@
+<h1>{{.Title}}</h1>
+        {{range .Story}}
+            <P>{{.}}</P>
+        {{end}}
+        <ul>
+            {{range .Options}}
+
+                <li><a href="http://localhost:8080?key={{.Arc}}">{{.Text}}</a></li>
+
+            {{end}}
+        </ul>

@@ -1,0 +1,71 @@
+package main2
+
+import (
+	"fmt"
+	"html/template"
+	"io/ioutil"
+	"net/http"
+	"os"
+)
+
+
+
+type Todo struct {
+	Title string
+	Done  bool
+}
+
+type TodoPageData struct {
+	PageTitle string
+	Todos     []Todo
+}
+
+var tmpl *template.Template
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	data := TodoPageData{
+		PageTitle: "My TODO list",
+		Todos: []Todo{
+			{Title: "Task 1", Done: false},
+			{Title: "Task 2", Done: true},
+			{Title: "Task 3", Done: true},
+		},
+	}
+
+	tmpl.Execute(w, data)
+}
+
+func main() {
+	// load json
+	// there will be a map like map[arcname]struct
+	// define what that struct looks like
+	// get json decoded into structs
+	// add structs to map
+	// display first arc
+	// show links to options
+	// based on option, show next arc
+	jsonBytes:= loadJson()
+
+	tmpl = template.Must(template.ParseFiles("html/layout.html"))
+
+	http.HandleFunc("/", handler)
+
+	http.ListenAndServe(":8080", nil)
+}
+
+func loadJson() []byte{
+	// Open our jsonFile
+	jsonFile, err := os.Open("users.json")
+	// if we os.Open returns an error then handle it
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("Successfully Opened users.json")
+	// defer the closing of our jsonFile so that we can parse it later on
+	defer jsonFile.Close()
+
+	// read our opened xmlFile as a byte array.
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	return byteValue
+}
