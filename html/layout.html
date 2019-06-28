@@ -1,11 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
 <h1>{{.Title}}</h1>
         {{range .Story}}
             <P>{{.}}</P>
         {{end}}
         <ul>
             {{range .Options}}
-
-                <li><a href="http://localhost:8080?key={{.Arc}}">{{.Text}}</a></li>
-
+                <form method="post" action="http://localhost:8080" class="inline">
+                    <button type="submit" name="arc" value="{{.Arc}}" class="btn btn-link">{{.Text}}</button>
+                </form>
             {{end}}
         </ul>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
