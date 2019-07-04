@@ -36,8 +36,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		arc = "intro"
 	case "POST":
-		fmt.Println("POST")
-
 		// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
 		if err := r.ParseForm(); err != nil {
 			fmt.Printf("%v",err)
@@ -50,7 +48,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
 
-	tmpl := template.Must(template.ParseFiles("html/layout.html"))
+	tmpl := template.Must(template.ParseFiles("static/html/layout.html"))
 
 	tmpl.Execute(w, arcs[arc])
 }
@@ -61,12 +59,17 @@ func main() {
 	json.Unmarshal([]byte(jsonBytes), &arcs)
 
 	http.HandleFunc("/", handler)
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./static/css"))))
+	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("./static/js"))))
+
+	//r.PathPrefix("/GolangTraining/blog/static/css").Handler(http.StripPrefix("/GolangTraining/blog/static/css", http.FileServer(http.Dir("./GolangTraining/blog/static/css"))))
+
 
 	http.ListenAndServe(":8080", nil)
 }
 
 func loadJson() []byte {
-	jsonFile, err := os.Open("gopher.json")
+	jsonFile, err := os.Open("./gopher.json")
 	if err != nil {
 		fmt.Println(err)
 	}
