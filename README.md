@@ -2,6 +2,7 @@
 
 [![exercise status: released](https://img.shields.io/badge/exercise%20status-released-green.svg?style=for-the-badge)](https://gophercises.com/exercises/cyoa) [![demo: ->](https://img.shields.io/badge/demo-%E2%86%92-blue.svg?style=for-the-badge)](https://gophercises.com/demos/cyoa/)
 
+This is my solution to the Gophercise exercise described here.
 
 ## Exercise details
 
