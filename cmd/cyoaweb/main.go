@@ -8,13 +8,13 @@ import (
 	"net/http"
 	"os"
 
-	cyoa "github.com/petherin/gophercises_cyoa"
+	"github.com/petherin/gophercises_cyoa/internal"
 )
 
 func main() {
 	port := flag.Int("port", 3000, "the port to start CYOA web application on")
 	filename := flag.String("file", "gopher.json", "the JSON file with the CYOA story")
-	parser := flag.String("parser", "default", "how to parse the chapters")
+	parser := flag.String("parser", "path", "how to parse the chapters [path, post]")
 	flag.Parse()
 	fmt.Printf("Using the story in %s.\n", *filename)
 
@@ -25,19 +25,21 @@ func main() {
 
 	defer f.Close()
 
-	story, err := cyoa.JsonStory(f)
+	story, err := internal.JsonStory(f)
 	if err != nil {
 		panic(err)
 	}
 
+	f.Close()
+
 	var h http.Handler
-	h = cyoa.NewHandler(story)
+	h = internal.NewHandler(story)
 
 	if *parser == "form" {
 		pathTpl := template.Must(template.ParseFiles("static/html/formLayout.html"))
-		h = cyoa.NewHandler(story,
-			cyoa.WithTemplate(pathTpl),
-			cyoa.WithChapterParseFunc(formChapterParseFn))
+		h = internal.NewHandler(story,
+			internal.WithTemplate(pathTpl),
+			internal.WithChapterParseFunc(formChapterParseFn))
 	}
 
 	fmt.Printf("Starting the server on port: %d\n", *port)
