@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Choose Your Own Adventure</title>
+</head>
+<body>
+
+<h1>{{.Title}}</h1>
+{{range .Paragraphs}}
+    <P>{{.}}</P>
+{{end}}
+<ul>
+    {{range .Options}}
+        <li><a href="/{{.Chapter}}">{{.Text}}</a></li>
+    {{end}}
+</ul>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
